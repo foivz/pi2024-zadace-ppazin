@@ -15,7 +15,7 @@ Studentski restoran podložan je nastajanju dugih redova te neorganiziranost nar
 Zahtjeva se izrada aplikacije za potporu provođenja narudžbi dnevnih menija uz praćenje statusa narudžbi te posljedičnih izvještaja koji nastaju radi ocjenjivanja okusa i količine hrane.
 
 ## Zadatak
-
+[Zadatak](https://github.com/foivz/pi2024-zadace-ppazin/blob/master/Documentation/Zadatak%20-%20SCVZ.pdf)
 
 ## Resursi
 Svi resursi nalaze se u mapi _Documentation_.
