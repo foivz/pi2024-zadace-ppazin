@@ -5,7 +5,7 @@ Sustav za praćenje narudžbi u studentskom restoraniu.
 
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
-Paula Pažin | ppazin22@foi.hr | 000000000 | ppazin
+Paula Pažin | ppazin22@foi.hr | 0016158520 | ppazin
 
 
 ## Opis domene
