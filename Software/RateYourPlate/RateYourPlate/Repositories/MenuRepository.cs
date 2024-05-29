@@ -1,67 +1,93 @@
-﻿using DBLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DBLayer;
+using RateYourPlate.Models;
 
 namespace RateYourPlate
 {
-    public class MenuRepository
+    internal class MenuRepository
     {
-        public static Menu GetDailyMenu(DateTime datum)
+        public static Menu GetDailyMenus(string datum)
         {
-            Menu menu = null;
-            string sql = $"SELECT * FROM Menu WHERE datum = {datum}";
+            string sql = $"SELECT * FROM Menu WHERE datum = '{datum}'";
             DB.OpenConnection();
-            var reader = DB.GetDataReader(sql); //zadnja greska (error near .2024.)
+            var reader = DB.GetDataReader(sql);
+            Menu menu = null;
+
             if (reader.HasRows)
             {
                 reader.Read();
                 menu = CreateObject(reader);
                 reader.Close();
             }
-            reader.Close();
+
             DB.CloseConnection();
             return menu;
-        }
-
-        public static List<Menu> GetMenus()
-        {
-            List<Menu> menus = new List<Menu>();
-            string sql = "SELECT * FROM Menu";
-            DB.OpenConnection();
-            var reader = DB.GetDataReader(sql);
-            while (reader.Read())
-            {
-                Menu menu = CreateObject(reader);
-                menus.Add(menu);
-            }
-            reader.Close();
-            DB.CloseConnection();
-            return menus;
         }
 
         private static Menu CreateObject(SqlDataReader reader)
         {
             int id = int.Parse(reader["Id"].ToString());
-            string juha = reader["juha"].ToString();
-            string glavnoJelo = reader["glavnoJelo"].ToString();
-            string prilog = reader["prilog"].ToString();
-            string desert = reader["desert"].ToString();
             DateTime datum = reader.GetDateTime(reader.GetOrdinal("datum"));
+            int IdMenu1 = int.Parse(reader["IdMeni1"].ToString());
+            int IdMenu2 = int.Parse(reader["IdMeni2"].ToString());
+            int IdMenu3 = int.Parse(reader["IdMeni3"].ToString());
+
             var menu = new Menu
+            {
+                Id = id,
+                Datum = datum,
+                Menu1 = IdMenu1,
+                Menu2 = IdMenu2,
+                Menu3 = IdMenu3
+            };
+
+            return menu;
+        }
+
+        public static MenuDetails GetMenuDetails(int id, string index)
+        {
+            string tableName = $"Menu{index}";
+            string columnName = $"IdMeni{index}";
+            string sId = id.ToString();
+
+            string sql = $"SELECT * FROM {tableName} WHERE {columnName} = {sId}";
+            DB.OpenConnection();
+            var reader = DB.GetDataReader(sql);
+            MenuDetails menuDetails = null;
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                menuDetails = CreateMenuDetailsObject(reader, index);
+                reader.Close();
+            }
+            DB.CloseConnection();
+            return menuDetails;
+        }
+
+        private static MenuDetails CreateMenuDetailsObject(SqlDataReader reader, string suffix)
+        {
+            int id = int.Parse(reader[$"IdMeni{suffix}"].ToString());
+            string juha = reader[$"juha{suffix}"].ToString();
+            string glavnoJelo = reader[$"glavnoJelo{suffix}"].ToString();
+            string prilog = reader[$"prilog{suffix}"].ToString();
+            string desert = reader[$"desert{suffix}"].ToString();
+
+            var menuDetails = new MenuDetails
             {
                 Id = id,
                 Juha = juha,
                 GlavnoJelo = glavnoJelo,
                 Prilog = prilog,
-                Desert = desert,
-                Datum = datum
+                Desert = desert
             };
-            return menu;
-        }
 
+            return menuDetails;
+        }
     }
 }
