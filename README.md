@@ -9,10 +9,9 @@ Paula Pažin | ppazin22@foi.hr | 0016158520 | ppazin
 
 ## Podaci za prijavu
 Username | Password 
--  | -
+-------  | --------
 admin | admin123
 vlasnik | vlasnik123
-
 
 ## Opis domene
 Studentski restoran podložan je nastajanju dugih redova te neorganiziranost narudžbi.
